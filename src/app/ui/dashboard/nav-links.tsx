@@ -14,15 +14,15 @@ import { usePathname } from 'next/navigation';
 
 // Map of links to display in the side navigation.
 const links = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon },
-  { name: 'Companies', href: '/dashboard/companies', icon: BuildingOfficeIcon },
-  { name: 'Job States', href: '/dashboard/job-states', icon: BriefcaseIcon },
-  { name: 'Mails', href: '/dashboard/mails', icon: EnvelopeIcon },
-  { name: 'Applications', href: '/dashboard/applications', icon: DocumentCheckIcon },
-  { name: 'Newsletter', href: '/dashboard/newsletter', icon: NewspaperIcon },
-  { name: 'Actions', href: '/dashboard/actions', icon: CogIcon },
-  { name: 'Privacy Policy', href: '/dashboard/privacy-policy', icon: ShieldCheckIcon },
+  { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
+  { name: 'Users', href: '/admin/dashboard/users', icon: UserGroupIcon },
+  { name: 'Companies', href: '/admin/dashboard/companies', icon: BuildingOfficeIcon },
+  { name: 'Job States', href: '/admin/dashboard/job-states', icon: BriefcaseIcon },
+  { name: 'Mails', href: '/admin/dashboard/mails', icon: EnvelopeIcon },
+  { name: 'Applications', href: '/admin/dashboard/applications', icon: DocumentCheckIcon },
+  { name: 'Newsletter', href: '/admin/dashboard/newsletter', icon: NewspaperIcon },
+  { name: 'Actions', href: '/admin/dashboard/actions', icon: CogIcon },
+  { name: 'Privacy Policy', href: '/admin/dashboard/privacy-policy', icon: ShieldCheckIcon },
 ];
 
 export default function NavLinks() {

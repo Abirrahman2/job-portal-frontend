@@ -23,7 +23,7 @@ const LoginForm = () => {
 
       const role = res.data.role;
 
-      if (role === 'admin') router.push('/dashboard/admin');
+      if (role === 'admin') router.push('admin/dashboard');
       else if (role === 'recruiter') router.push('/dashboard/recruiter');
       else router.push('/dashboard/user');
     } catch (err) {
@@ -33,8 +33,8 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div className="max-w-md mx-auto mt-40">
+      <h2 className="text-2xl text-orange-500 font-bold mb-4">Login</h2>
       {error && <p className="text-red-500 mb-2">{error}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -51,7 +51,7 @@ const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="btn btn-primary w-full">
+        <button type="submit" className="btn btn-primary w-full bg-orange-500 text-white hover:bg-orange-600 hover:text-black">
           Login
         </button>
       </form>
