@@ -39,8 +39,8 @@ export default function NavLinks() {
             href={link.href}
             className={`flex h-[48px] grow items-center justify-center gap-2 rounded-md p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3 ${
               isActive
-                ? 'bg-orange-600 text-white'
-                : 'bg-gray-50 hover:bg-sky-100 hover:text-blue-600'
+                ? 'bg-orange-500 text-white'
+                : 'bg-gray-50 hover:bg-sky-100 hover:text-orange-500'
             }`}
           >
             <LinkIcon className="w-6" />
