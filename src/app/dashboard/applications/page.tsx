@@ -1,11 +1,11 @@
 import React from 'react';
 
-const page = () => {
+const Application = () => {
     return (
         <div>
-            
+            i am applications
         </div>
     );
 };
 
-export default page;
+export default Application;
