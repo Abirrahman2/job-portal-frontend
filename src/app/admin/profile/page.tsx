@@ -1,4 +1,48 @@
-'use client'
+'use client';
+import React, { useState } from 'react';
+import ProfileInfoForm from './_components/ProfileInfoForm';
+import ChangePasswordForm from './_components/ChangePasswordForm';
+import { UserCircleIcon, KeyIcon } from '@heroicons/react/24/outline';
+
+type Tab = 'profile' | 'password';
+
+export default function AdminProfilePage() {
+  const [activeTab, setActiveTab] = useState<Tab>('profile');
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Account Settings</h1>
+      
+      <div className="tabs tabs-boxed bg-base-200">
+        <a 
+          className={`tab tab-lg ${activeTab === 'profile' ? 'tab-active' : ''}`}
+          onClick={() => setActiveTab('profile')}
+        >
+          <UserCircleIcon className="h-5 w-5 mr-2" />
+          Profile Information
+        </a> 
+        <a 
+          className={`tab tab-lg ${activeTab === 'password' ? 'tab-active' : ''}`}
+          onClick={() => setActiveTab('password')}
+        >
+          <KeyIcon className="h-5 w-5 mr-2" />
+          Change Password
+        </a>
+      </div>
+      
+      <div className="mt-8">
+        {activeTab === 'profile' && <ProfileInfoForm />}
+        {activeTab === 'password' && <ChangePasswordForm />}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+/*'use client'
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -70,4 +114,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default page;*/

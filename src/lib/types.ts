@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 
 export interface User {
   id: number;
@@ -15,6 +16,7 @@ export interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  setUser:Dispatch<SetStateAction<User | null>>;
 }
 export interface CompanyInfo {
   id: number;
@@ -43,4 +45,30 @@ export interface Course {
   price: number;
   status: string;
   createdDate: string;
+}
+export interface Applicant
+{
+  id:number;
+  firstName:string;
+  lastName:string;
+  email:string;
+}
+export interface Application
+{
+  id:number;
+  status:string;
+  appliedAt:string;
+  resumeUrl:string;
+  user:Applicant;
+}
+export interface CreateUserDto
+{
+  firstName:string;
+  lastName: string;
+  age: number;
+  email: string;
+  password?: string;
+  address: string;
+  role: string;
+  isActive: boolean;
 }

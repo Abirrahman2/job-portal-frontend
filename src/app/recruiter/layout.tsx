@@ -1,18 +1,47 @@
-import SideNav from '@/app/ui/dashboard/sidenav';
-import AdminNavbar from '@/components/AdminNav';
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import RecruiterSideNav from '@/app/ui/recruiter/recruiter-sidenav';
+import UserHeader from '@/components/UserHeader'; 
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function RecruiterLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    if (user.role !== 'recruiter') {
+      router.push('/login'); 
+      return;
+    }
+  }, [user, loading, router]);
+  if (loading || !user || user.role !== 'recruiter') {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <span className="loading loading-dots loading-lg text-orange-500"></span>
+      </div>
+    );
+  }
   return (
-    <div className="flex h-screen flex-col">
-      <AdminNavbar />
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="w-64 flex-shrink-0 overflow-y-auto bg-gray-100">
-          <SideNav />
-        </aside>
-        
-        <main className="flex-1 overflow-y-auto p-6 md:p-12 bg-white">
-          {children}
-        </main>
+    <div className="drawer lg:drawer-open bg-base-200">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col p-4">
+          <UserHeader />
+          <main className="flex-1 bg-base-100 rounded-box mt-4 p-6">
+            {children}
+          </main>
+      </div> 
+
+      <div className="drawer-side z-30">
+        <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
+        <div className="w-64 min-h-full bg-base-200">
+            <RecruiterSideNav />
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       <Navbar />
-      <main>{children}</main>
+      <main className="pt-10">{children}</main>
     </div>
   );
 }

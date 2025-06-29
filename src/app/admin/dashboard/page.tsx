@@ -28,14 +28,14 @@ const Dashboard = () => {
         ] = await Promise.all([
           api.get('/users/userCount/user'),
           api.get('/users/userCount/recruiter'),
-          api.get('/company/countcompany'),
+          api.get('/company/admin/countcompany'),
          // api.get('/jobs/admin/count')
         ]);
 
         setStats({
           totalUsers: usersRes.data,
           totalRecruiters: recruitersRes.data,
-          totalCompanies: companiesRes.data.count,
+          totalCompanies: companiesRes.data,
           totalJobs: 0,
         });
 
