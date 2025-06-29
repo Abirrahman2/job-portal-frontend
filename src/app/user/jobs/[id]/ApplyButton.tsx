@@ -34,7 +34,7 @@ export default function ApplyButton({ jobId }: { jobId: number }) {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       
-      const resumeUrl = uploadResponse.data.file.path; 
+      const resumeUrl = `http://localhost:3000/${uploadResponse.data.file.path}`; 
       await api.post('/applications/apply', { jobId, resumeUrl });
       
       setSuccess('Application submitted successfully!');

@@ -3,25 +3,38 @@ import React, { useState, useEffect } from 'react';
 import { Course } from '@/lib/types';
 import api from '@/lib/api';
 import CourseCard from '@/app/ui/course/CourseCard';
+import Pagination from '@/app/ui/common/Pagination';
+import { useSearchParams } from 'next/navigation';
+import page from '../dashboard/page';
 
+interface PaginatedCourseData
+{
+  data:Course[];
+  total:number;
+  page:number;
+  lastPage:number;
+}
 export default function CoursesPage() {
-  const [allCourses, setAllCourses] = useState<Course[]>([]);
+  const [paginatedData,setPaginatedData]=useState<PaginatedCourseData | null>(null);
+  //const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [myCourseIds, setMyCourseIds] = useState<Set<number>>(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const searchParams=useSearchParams();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
+      const page=searchParams.get('page')||'1';
       try {
         const [allCoursesRes, myCoursesRes] = await Promise.all([
-          api.get<Course[]>('/course/published'),
-          api.get<Course[]>('/course/my-courses'),
+          api.get<PaginatedCourseData>('/course/published',{params:{page}}),
+          api.get<PaginatedCourseData>('/course/my-courses',{params:{page}}),
         ]);
         
-        setAllCourses(allCoursesRes.data);
-        setMyCourseIds(new Set(myCoursesRes.data.map(c => c.id)));
+        setPaginatedData(allCoursesRes.data);
+        const owenedCourses=myCoursesRes.data.data;
+        setMyCourseIds(new Set(owenedCourses.map(c => c.id)));
 
       } catch (err) {
         console.error("Failed to fetch courses data:", err);
@@ -32,7 +45,7 @@ export default function CoursesPage() {
     };
 
     fetchData();
-  }, []);
+  }, [searchParams]);
 
   return (
     <div>
@@ -53,16 +66,24 @@ export default function CoursesPage() {
         </div>
       )}
 
-      {!loading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {allCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-              isPurchased={myCourseIds.has(course.id)}
-            />
-          ))}
-        </div>
+      {!loading && !error && paginatedData && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {paginatedData.data.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                isPurchased={myCourseIds.has(course.id)}
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={paginatedData.page}
+            lastPage={paginatedData.lastPage}
+            total={paginatedData.total}
+          />
+        </>
       )}
     </div>
   );

@@ -7,6 +7,7 @@ import {
   CreditCardIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
+import { icons, PlayCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -15,9 +16,9 @@ const links = [
   { name: 'Find Jobs', href: '/user/jobs', icon: BriefcaseIcon },
   { name: 'My Applications', href: '/user/applications', icon: DocumentCheckIcon },
   { name: 'Courses', href: '/user/courses', icon: AcademicCapIcon },
-  { name: 'My Courses', href: '/user/my-courses', icon:AcademicCapIcon},
   { name: 'Billing', href: '/user/billing', icon: CreditCardIcon },
   { name: 'Profile', href: '/user/profile', icon: UserCircleIcon },
+  { name: 'My Courses', href: '/user/my-courses', icon: PlayCircleIcon}
 ];
 
 export default function UserNavLinks() {
