@@ -5,20 +5,24 @@ import AcmeLogo from '@/app/ui/acme-logo';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useAuth } from '@/context/AuthContext';
 export default function SideNav() {
+  const {logout}=useAuth();
   const router=useRouter();
   const handleLogout=async (e:React.FormEvent)=>{
      e.preventDefault();
-     try{
+     await logout();
+    /* try{
         await axios.post('http://localhost:3000/auth/logout',{},
           {withCredentials:true,}
         );
-        router.push('/home');
+        router.push('/login');
      }
      catch(error)
      {
+      console.log(error);
       console.log("logout failed");
-     }
+     }*/
 
   };
   return (

@@ -9,12 +9,14 @@ import {
   NewspaperIcon,
   CogIcon,
   ShieldCheckIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 
-// Map of links to display in the side navigation.
+
 const links = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: HomeIcon },
+  { name: 'Profile', href: '/admin/profile', icon: UserCircleIcon },
   { name: 'Users', href: '/admin/dashboard/users', icon: UserGroupIcon },
   { name: 'Companies', href: '/admin/dashboard/companies', icon: BuildingOfficeIcon },
   { name: 'Job States', href: '/admin/dashboard/job-states', icon: BriefcaseIcon },

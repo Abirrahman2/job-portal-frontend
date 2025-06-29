@@ -1,77 +1,86 @@
 'use client';
+import React, { useState, useEffect, useCallback } from 'react';
+import { User } from '@/lib/types';
+import api from '@/lib/api';
+import UsersTable from './UserTable';
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+type Tab = 'users' | 'recruiters';
 
-type User = {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number;
-  role: string;
-  isActive: boolean;
-};
-
-const User = () => {
+export default function UserManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
+  const [recruiters, setRecruiters] = useState<User[]>([]);
+  const [activeTab, setActiveTab] = useState<Tab>('users');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
     try {
-      const res = await axios.get('http://localhost:3000/users/user', {
-        withCredentials: true,
-      });
-      setUsers(res.data);
+      const [usersRes, recruitersRes] = await Promise.all([
+        api.get('/users/user'),
+        api.get('/users/recruiter'),
+      ]);
+      setUsers(Array.isArray(usersRes.data) ? usersRes.data : []);
+      setRecruiters(Array.isArray(recruitersRes.data) ? recruitersRes.data : []);
+
     } catch (err) {
-      console.error('Failed to fetch users:', err);
+      console.error('Failed to fetch user data:', err);
+      setError('Could not load user data. Please try again later.');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const renderContent = () => {
+    if (loading) {
+      return <div className="p-6 text-center">Loading...</div>;
+    }
+    if (error) {
+      return <div className="p-6 text-center text-red-600">{error}</div>;
+    }
+    if (activeTab === 'users') {
+      return <UsersTable users={users} title="Registered Users" refetch={fetchData} />;
+    }
+    if (activeTab === 'recruiters') {
+      return <UsersTable users={recruiters} title="Registered Recruiters" refetch={fetchData} />;
+    }
+  };
+  
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Active Users</h1>
+      <h1 className="mb-8 text-3xl font-bold text-gray-800">User Management</h1>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.firstName} {user.lastName}</td>
-                  <td>{user.email}</td>
-                  <td><span className="badge badge-info">{user.role}</span></td>
-                  <td>
-                    {user.isActive ? (
-                      <span className="badge badge-success">Active</span>
-                    ) : (
-                      <span className="badge badge-error">Deleted</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <div className="mb-6 border-b border-gray-200">
+        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`${
+              activeTab === 'users'
+                ? 'border-orange-500 text-orange-600'
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+            } whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium`}
+          >
+            Users ({users.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('recruiters')}
+            className={`${
+              activeTab === 'recruiters'
+                ? 'border-orange-500 text-orange-600'
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+            } whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium`}
+          >
+            Recruiters ({recruiters.length})
+          </button>
+        </nav>
+      </div>
+
+      {renderContent()}
     </div>
   );
-};
-
-export default User;
+}

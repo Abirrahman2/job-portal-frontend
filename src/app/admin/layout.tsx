@@ -1,7 +1,39 @@
+'use client'
 import SideNav from '@/app/ui/dashboard/sidenav';
 import AdminNavbar from '@/components/AdminNav';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+
+    if (loading) return;
+
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    if (user.role !== 'admin') {
+      
+      router.push('/login'); 
+      return;
+    }
+  }, [user, loading, router]);
+
+  
+  if (loading || !user || user.role !== 'admin') {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen flex-col">
       <AdminNavbar />
