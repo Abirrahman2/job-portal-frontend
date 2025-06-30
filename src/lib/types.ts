@@ -8,7 +8,8 @@ export interface User {
   role: 'admin' | 'recruiter' | 'user';
   address: string;
   age: number;
-  
+  companyId?:number|null;
+  company?:CompanyInfo|null
 }
 
 export interface AuthContextType {

@@ -40,9 +40,9 @@ import {
 } from '@heroicons/react/24/outline';
 
 const featuredJobs = [
-  { id: 1, title: 'Senior Frontend Developer', company: 'TechNova Inc.', location: 'Remote', type: 'Full-time' },
-  { id: 2, title: 'Product Manager', company: 'Innovate Co.', location: 'New York, NY', type: 'Full-time' },
-  { id: 3, title: 'UX/UI Designer', company: 'Creative Solutions', location: 'San Francisco, CA', type: 'Contract' },
+  { id: 1, title: 'Senior Frontend Developer', company: 'Bkash', location: 'Remote', type: 'Full-time' },
+  { id: 2, title: 'Product Manager', company: 'Rokomari.com', location: 'Dhaka', type: 'Full-time' },
+  { id: 3, title: 'UX/UI Designer', company: 'Onno rokom pathshala', location: 'Dhaka', type: 'Contract' },
 ];
 
 export default function HomePage() {
